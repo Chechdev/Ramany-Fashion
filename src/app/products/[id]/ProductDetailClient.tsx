@@ -28,6 +28,8 @@ import {
 import { ProductItem, CartItem, getProductImages } from "@/types/product";
 import { RamanyFullBadge } from "@/components/RamanyLogo";
 import { ProductImageSlider } from "@/components/ProductImageSlider";
+import { useLanguage } from "@/lib/i18n";
+import { LanguageButton } from "@/components/LanguageSettingsModal";
 
 interface ProductDetailClientProps {
   product: ProductItem;
@@ -35,6 +37,7 @@ interface ProductDetailClientProps {
 }
 
 export function ProductDetailClient({ product, relatedProducts }: ProductDetailClientProps) {
+  const { t, lang } = useLanguage();
   // Lựa chọn mua hàng
   const [selectedSize, setSelectedSize] = useState<string>(product.size || "M");
   const [selectedColor, setSelectedColor] = useState<string>(
@@ -327,12 +330,14 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
               className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-600 hover:text-neutral-950 transition bg-neutral-100 hover:bg-neutral-200 px-3 py-1.5 rounded-full"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Quay lại danh mục</span>
+              <span>{t("backToCategory")}</span>
             </Link>
           </div>
 
           {/* Tiện ích bên phải */}
           <div className="flex items-center gap-3">
+            <LanguageButton variant="light" />
+
             {/* Nút chia sẻ */}
             <button
               onClick={handleShare}
@@ -348,7 +353,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
               className="relative p-2.5 rounded-full bg-neutral-900 text-white hover:bg-neutral-800 transition flex items-center gap-2 cursor-pointer shadow-xs active:scale-95"
             >
               <ShoppingBag className="w-4 h-4" />
-              <span className="text-xs font-bold hidden sm:inline">Giỏ hàng</span>
+              <span className="text-xs font-bold hidden sm:inline">{t("cart")}</span>
               {totalCartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-rose-600 text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-in zoom-in">
                   {totalCartCount > 99 ? "99+" : totalCartCount}

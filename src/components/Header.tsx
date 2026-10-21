@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Plus, Upload, Download, CheckCircle2, AlertCircle, RefreshCw, LogOut, Store } from "lucide-react";
 import Link from "next/link";
 import { RamanyFullBadge } from "@/components/RamanyLogo";
+import { useLanguage } from "@/lib/i18n";
+import { LanguageButton } from "@/components/LanguageSettingsModal";
 
 interface HeaderProps {
   onOpenCreate: () => void;
@@ -26,6 +28,7 @@ export function Header({
   totalFiltered,
   onLogout,
 }: HeaderProps) {
+  const { t } = useLanguage();
   const [showExportMenu, setShowExportMenu] = useState(false);
 
   return (
@@ -81,7 +84,7 @@ export function Header({
               className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 transition shadow-xs cursor-pointer"
             >
               <Upload className="w-4 h-4 text-neutral-500" />
-              <span>Nhập CSV</span>
+              <span>{t("importCsv")}</span>
             </button>
 
             {/* Nút Xuất CSV Dropdown */}
@@ -92,7 +95,7 @@ export function Header({
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 transition shadow-xs cursor-pointer"
               >
                 <Download className="w-4 h-4 text-neutral-500" />
-                <span>Xuất CSV</span>
+                <span>{t("exportCsv")}</span>
               </button>
 
               {showExportMenu && (
@@ -132,11 +135,14 @@ export function Header({
               className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-neutral-900 rounded-lg hover:bg-neutral-800 transition shadow-xs cursor-pointer"
             >
               <Plus className="w-4 h-4" />
-              <span>Thêm sản phẩm</span>
+              <span>{t("addProduct")}</span>
             </button>
 
             {/* Phân cách */}
             <div className="h-6 w-px bg-neutral-200 hidden sm:block mx-1" />
+
+            {/* Chọn ngôn ngữ */}
+            <LanguageButton variant="light" />
 
             {/* Về cửa hàng */}
             <Link
@@ -145,7 +151,7 @@ export function Header({
               title="Xem giao diện bán hàng"
             >
               <Store className="w-4 h-4" />
-              <span className="hidden sm:inline">Cửa hàng</span>
+              <span className="hidden sm:inline">{t("store")}</span>
             </Link>
 
             {/* Đăng xuất */}
@@ -157,7 +163,7 @@ export function Header({
                 title="Đăng xuất khỏi trang quản trị"
               >
                 <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline">Đăng xuất</span>
+                <span className="hidden sm:inline">{t("logout")}</span>
               </button>
             )}
           </div>

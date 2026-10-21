@@ -23,8 +23,11 @@ import {
 import { ProductItem, CartItem, getProductImages } from "@/types/product";
 import { RamanyFullBadge } from "@/components/RamanyLogo";
 import { ProductImageSlider } from "@/components/ProductImageSlider";
+import { useLanguage } from "@/lib/i18n";
+import { LanguageButton } from "@/components/LanguageSettingsModal";
 
 export function StorefrontClient({ initialProducts = [] }: { initialProducts?: ProductItem[] }) {
+  const { t, lang } = useLanguage();
   const [products, setProducts] = useState<ProductItem[]>(initialProducts);
   const [isLoading, setIsLoading] = useState(initialProducts.length === 0);
 
@@ -320,18 +323,19 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
       {/* 1. TOP ANNOUNCEMENT BAR */}
       <div className="bg-neutral-950 text-neutral-300 text-xs py-2 px-4 text-center font-medium tracking-wide flex items-center justify-between border-b border-neutral-800">
         <div className="hidden sm:block text-neutral-400">
-          Hotline hỗ trợ: <strong className="text-white">1800 6868</strong> (8h - 22h)
+          {t("hotline")}
         </div>
         <div className="flex-1 sm:flex-initial flex items-center justify-center gap-2">
           <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-          <span>
-            Ưu đãi tháng này: <strong>MIỄN PHÍ VẬN CHUYỂN</strong> cho đơn từ 500.000₫
-          </span>
+          <span>{t("shippingPromo")}</span>
         </div>
-        <div className="hidden sm:flex items-center gap-4 text-neutral-400">
-          <span>Đổi trả 30 ngày miễn phí</span>
-          <span>•</span>
-          <span>Chất lượng cam kết</span>
+        <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3 text-neutral-400 text-[11px]">
+            <span>{t("freeReturn30")}</span>
+            <span>•</span>
+            <span>{t("qualityCommitment")}</span>
+          </div>
+          <LanguageButton variant="dark" />
         </div>
       </div>
 
@@ -360,7 +364,7 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Tìm áo thun, sơ mi, đầm váy, jeans..."
+                  placeholder={t("searchPlaceholder")}
                   className="w-full pl-10 pr-4 py-2.5 bg-neutral-100 border border-transparent rounded-full text-sm text-neutral-900 placeholder-neutral-400 focus:bg-white focus:border-neutral-300 focus:outline-hidden focus:ring-2 focus:ring-neutral-900 transition"
                 />
                 {searchQuery && (
@@ -374,14 +378,16 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
               </div>
             </div>
 
-            {/* Menu & Giỏ hàng */}
+            {/* Menu, Cài đặt Ngôn ngữ & Giỏ hàng */}
             <div className="flex items-center gap-3">
+              <LanguageButton variant="light" />
 
               {/* Nút Giỏ Hàng */}
               <button
                 id="btn-cart"
                 onClick={() => setIsCartOpen(true)}
                 className="relative inline-flex items-center justify-center p-2.5 rounded-full bg-neutral-900 text-white hover:bg-neutral-800 transition shadow-sm cursor-pointer"
+                title={t("cart")}
               >
                 <ShoppingBag className="w-5 h-5" />
                 {totalCartCount > 0 && (
@@ -403,98 +409,98 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                   setSelectedCategory("ALL");
                   setSelectedGender("ALL");
                 }}
-                className={`whitespace-nowrap transition cursor-pointer pb-1 ${
+                className={`whitespace-nowrap transition cursor-pointer pb-1 uppercase ${
                   selectedCategory === "ALL" && selectedGender === "ALL"
                     ? "text-neutral-950 border-b-2 border-neutral-950 font-bold"
                     : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
-                TẤT CẢ SẢN PHẨM
+                {t("catAll")}
               </button>
               <button
                 onClick={() => {
                   setSelectedCategory("Áo thun");
                   setSelectedGender("ALL");
                 }}
-                className={`whitespace-nowrap transition cursor-pointer pb-1 ${
+                className={`whitespace-nowrap transition cursor-pointer pb-1 uppercase ${
                   selectedCategory === "Áo thun"
                     ? "text-neutral-950 border-b-2 border-neutral-950 font-bold"
                     : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
-                ÁO THUN
+                {t("catAoThun")}
               </button>
               <button
                 onClick={() => {
                   setSelectedCategory("Áo sơ mi");
                   setSelectedGender("ALL");
                 }}
-                className={`whitespace-nowrap transition cursor-pointer pb-1 ${
+                className={`whitespace-nowrap transition cursor-pointer pb-1 uppercase ${
                   selectedCategory === "Áo sơ mi"
                     ? "text-neutral-950 border-b-2 border-neutral-950 font-bold"
                     : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
-                ÁO SƠ MI
+                {t("catAoSoMi")}
               </button>
               <button
                 onClick={() => {
                   setSelectedCategory("Quần jeans");
                   setSelectedGender("ALL");
                 }}
-                className={`whitespace-nowrap transition cursor-pointer pb-1 ${
+                className={`whitespace-nowrap transition cursor-pointer pb-1 uppercase ${
                   selectedCategory === "Quần jeans"
                     ? "text-neutral-950 border-b-2 border-neutral-950 font-bold"
                     : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
-                QUẦN JEANS
+                {t("catQuanJeans")}
               </button>
               <button
                 onClick={() => {
                   setSelectedCategory("Đầm & Váy");
                   setSelectedGender("ALL");
                 }}
-                className={`whitespace-nowrap transition cursor-pointer pb-1 ${
+                className={`whitespace-nowrap transition cursor-pointer pb-1 uppercase ${
                   selectedCategory === "Đầm & Váy"
                     ? "text-neutral-950 border-b-2 border-neutral-950 font-bold"
                     : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
-                ĐẦM & VÁY
+                {t("catDamVay")}
               </button>
               <button
                 onClick={() => {
                   setSelectedCategory("Áo khoác");
                   setSelectedGender("ALL");
                 }}
-                className={`whitespace-nowrap transition cursor-pointer pb-1 ${
+                className={`whitespace-nowrap transition cursor-pointer pb-1 uppercase ${
                   selectedCategory === "Áo khoác"
                     ? "text-neutral-950 border-b-2 border-neutral-950 font-bold"
                     : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
-                ÁO KHOÁC BIKER
+                {t("catAoKhoac")}
               </button>
               <button
                 onClick={() => setSelectedGender("Men")}
-                className={`whitespace-nowrap transition cursor-pointer pb-1 ${
+                className={`whitespace-nowrap transition cursor-pointer pb-1 uppercase ${
                   selectedGender === "Men"
                     ? "text-neutral-950 border-b-2 border-neutral-950 font-bold"
                     : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
-                THỜI TRANG NAM
+                {t("catNam")}
               </button>
               <button
                 onClick={() => setSelectedGender("Women")}
-                className={`whitespace-nowrap transition cursor-pointer pb-1 ${
+                className={`whitespace-nowrap transition cursor-pointer pb-1 uppercase ${
                   selectedGender === "Women"
                     ? "text-neutral-950 border-b-2 border-neutral-950 font-bold"
                     : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
-                THỜI TRANG NỮ
+                {t("catNu")}
               </button>
             </div>
           </div>
@@ -518,21 +524,21 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
           <div className="max-w-2xl space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold tracking-wider uppercase text-amber-300">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Bộ Sưu Tập Mới 2026</span>
+              <span>{t("collection2026")}</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight uppercase">
-              Tối giản chuẩn mực. <br />
-              <span className="text-neutral-400 font-light italic">Phong cách tự tại.</span>
+              {t("heroTitle1")} <br />
+              <span className="text-neutral-400 font-light italic">{t("heroTitle2")}</span>
             </h1>
             <p className="text-neutral-300 text-base sm:text-lg leading-relaxed max-w-xl font-normal">
-              RAMANY mang đến những thiết kế thời trang hiện đại từ chất liệu cotton dệt thoi tự nhiên, form dáng chuẩn mực cho mọi khoảnh khắc hàng ngày.
+              {t("heroDesc")}
             </p>
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <a
                 href="#san-pham"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-neutral-950 font-bold text-sm hover:bg-neutral-100 transition shadow-lg cursor-pointer"
               >
-                <span>Khám phá ngay</span>
+                <span>{t("exploreNow")}</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
             </div>
@@ -549,8 +555,8 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                 <Truck className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-bold text-neutral-900">Giao hàng hỏa tốc</p>
-                <p className="text-[11px] text-neutral-500">Miễn phí ship đơn từ 500k</p>
+                <p className="text-xs font-bold text-neutral-900">{t("fastDelivery")}</p>
+                <p className="text-[11px] text-neutral-500">{t("fastDeliverySub")}</p>
               </div>
             </div>
             <div className="flex items-center gap-3.5">
@@ -558,8 +564,8 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-bold text-neutral-900">100% Chất lượng cao</p>
-                <p className="text-[11px] text-neutral-500">Cotton tự nhiên thoáng mát</p>
+                <p className="text-xs font-bold text-neutral-900">{t("cottonBadge")}</p>
+                <p className="text-[11px] text-neutral-500">{t("cottonBadgeSub")}</p>
               </div>
             </div>
             <div className="flex items-center gap-3.5">
@@ -567,8 +573,8 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                 <RotateCcw className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-bold text-neutral-900">Đổi trả 30 ngày</p>
-                <p className="text-[11px] text-neutral-500">Thủ tục nhanh gọn, miễn phí</p>
+                <p className="text-xs font-bold text-neutral-900">{t("returnBadge")}</p>
+                <p className="text-[11px] text-neutral-500">{t("returnBadgeSub")}</p>
               </div>
             </div>
             <div className="flex items-center gap-3.5">
@@ -576,8 +582,8 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                 <Headphones className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-bold text-neutral-900">Hỗ trợ 24/7</p>
-                <p className="text-[11px] text-neutral-500">Tư vấn size tận tình</p>
+                <p className="text-xs font-bold text-neutral-900">{t("supportBadge")}</p>
+                <p className="text-[11px] text-neutral-500">{t("supportBadgeSub")}</p>
               </div>
             </div>
           </div>
@@ -591,14 +597,14 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold uppercase tracking-widest text-neutral-400">
-                Cửa Hàng Trực Tuyến
+                {t("onlineStore")}
               </span>
               <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                {filteredProducts.length} sản phẩm
+                {filteredProducts.length} {t("productsCount")}
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-neutral-900 mt-1">
-              {selectedCategory === "ALL" ? "Sản Phẩm Thời Trang Nổi Bật" : selectedCategory}
+              {selectedCategory === "ALL" ? t("featuredProducts") : selectedCategory}
             </h2>
           </div>
 
@@ -606,16 +612,16 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-1.5 text-xs text-neutral-600 bg-white border border-neutral-200 rounded-lg px-3 py-2 shadow-2xs">
               <SlidersHorizontal className="w-3.5 h-3.5 text-neutral-400" />
-              <span>Sắp xếp:</span>
+              <span>{t("sortBy")}:</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="bg-transparent font-semibold text-neutral-900 focus:outline-hidden cursor-pointer"
               >
-                <option value="newest">Mới nhất</option>
-                <option value="popular">Phổ biến</option>
-                <option value="price-asc">Giá: Thấp đến Cao</option>
-                <option value="price-desc">Giá: Cao đến Thấp</option>
+                <option value="newest">{t("sortNewest")}</option>
+                <option value="popular">{t("sortBestSeller")}</option>
+                <option value="price-asc">{t("sortPriceAsc")}</option>
+                <option value="price-desc">{t("sortPriceDesc")}</option>
               </select>
             </div>
           </div>
@@ -685,7 +691,7 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                     <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 pointer-events-none">
                       {isOutOfStock ? (
                         <span className="px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase bg-rose-600 text-white tracking-wider">
-                          Hết hàng
+                          {t("outOfStock")}
                         </span>
                       ) : (
                         <span className="px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase bg-neutral-900/80 backdrop-blur-xs text-white tracking-wider">
@@ -697,7 +703,7 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                     {/* Huy hiệu số lượng ảnh minh họa góc trên phải */}
                     {getProductImages(product).length > 1 && (
                       <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-sm text-[10px] font-bold bg-neutral-900/80 backdrop-blur-xs text-white tracking-wider flex items-center gap-1 shadow-xs pointer-events-none">
-                        <span>{getProductImages(product).length} ảnh</span>
+                        <span>{getProductImages(product).length} {t("photos")}</span>
                       </div>
                     )}
 
@@ -713,7 +719,7 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                         className="flex-1 py-2 rounded-lg bg-white/95 hover:bg-white text-neutral-900 font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5 cursor-pointer backdrop-blur-xs"
                       >
                         <Eye className="w-3.5 h-3.5" />
-                        <span>Xem nhanh</span>
+                        <span>{t("quickView")}</span>
                       </button>
                     </div>
                   </Link>
@@ -741,7 +747,7 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
 
                     <div className="mt-3 pt-3 border-t border-neutral-100 flex items-center justify-between">
                       <div>
-                        <span className="text-xs text-neutral-400 block -mb-1">Giá bán</span>
+                        <span className="text-xs text-neutral-400 block -mb-1">{t("price")}</span>
                         <span className="font-extrabold text-base text-neutral-950">
                           {formatVnd(product.price)}
                         </span>
@@ -845,21 +851,21 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
 
             <div>
               <h4 className="font-bold text-neutral-900 uppercase tracking-wider mb-3">
-                Chính sách & Hỗ trợ
+                {t("policySupport")}
               </h4>
               <p className="text-neutral-500 mb-2">
-                Miễn phí đổi trả trong 30 ngày đối với sản phẩm còn nguyên tem mác. Tư vấn form dáng chuẩn xác 24/7.
+                {t("policySupportDesc")}
               </p>
               <div className="text-xs text-neutral-500 space-y-1">
-                <p>• Hotline CSKH: 1800 6868 (Miễn phí)</p>
+                <p>• {t("hotline")}</p>
                 <p>• Email: support@ramany.com</p>
               </div>
             </div>
           </div>
 
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-neutral-400 gap-2">
-            <p>RAMANY &copy; 2026. Tất cả các quyền được bảo lưu.</p>
-            <p>Xây dựng với Next.js 16 + React 19 + Supabase + Tailwind CSS.</p>
+            <p>{t("copyright")}</p>
+            <p>{t("techStack")}</p>
           </div>
         </div>
       </footer>
@@ -1028,7 +1034,7 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                       className="flex-1 py-3 rounded-xl bg-neutral-950 hover:bg-neutral-800 disabled:opacity-40 text-white font-bold text-xs transition flex items-center justify-center gap-2 cursor-pointer shadow-md"
                     >
                       <ShoppingBag className="w-4 h-4" />
-                      <span>Thêm vào giỏ hàng</span>
+                      <span>{t("addToCart")}</span>
                     </button>
                   </div>
                 </div>
@@ -1047,7 +1053,7 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
               <div className="flex items-center gap-2">
                 <ShoppingBag className="w-5 h-5 text-neutral-900" />
                 <h3 className="font-extrabold text-neutral-900 text-base">
-                  Giỏ hàng của bạn ({totalCartCount})
+                  {t("cartTitle")} ({totalCartCount})
                 </h3>
               </div>
               <button
@@ -1068,10 +1074,10 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                     onChange={handleToggleSelectAll}
                     className="w-4 h-4 rounded text-neutral-900 border-neutral-300 focus:ring-neutral-900 cursor-pointer accent-neutral-900 shrink-0"
                   />
-                  <span>Chọn tất cả ({cart.length})</span>
+                  <span>{t("selectAll")} ({cart.length})</span>
                 </label>
                 <span className="text-[11px] text-neutral-500">
-                  Đã chọn: <strong className="text-neutral-950 font-bold">{selectedCartItems.length}</strong> món
+                  {t("selected")}: <strong className="text-neutral-950 font-bold">{selectedCartItems.length}</strong> {t("items")}
                 </span>
               </div>
             )}
@@ -1081,9 +1087,9 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
               {cart.length === 0 ? (
                 <div className="py-20 text-center">
                   <ShoppingBag className="w-12 h-12 text-neutral-200 mx-auto mb-2" />
-                  <p className="text-sm font-semibold text-neutral-600">Giỏ hàng đang trống</p>
+                  <p className="text-sm font-semibold text-neutral-600">{t("emptyCart")}</p>
                   <p className="text-xs text-neutral-400 mt-0.5">
-                    Hãy lựa chọn những bộ quần áo ưng ý bạn nhé!
+                    {t("emptyCartSub")}
                   </p>
                 </div>
               ) : (
@@ -1198,21 +1204,21 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
               <div className="p-4 bg-neutral-50 border-t border-neutral-200 space-y-3">
                 <div className="space-y-1.5 text-xs">
                   <div className="flex justify-between text-neutral-500">
-                    <span>Tạm tính ({selectedCount} món đã chọn)</span>
+                    <span>{t("subtotal")} ({selectedCount} {t("items")})</span>
                     <span className="font-semibold text-neutral-900">{formatVnd(cartSubtotal)}</span>
                   </div>
                   <div className="flex justify-between text-neutral-500">
-                    <span>Phí vận chuyển</span>
+                    <span>{t("shipping")}</span>
                     <span>
                       {selectedCount === 0
                         ? "—"
                         : shippingFee === 0
-                        ? "Miễn phí"
+                        ? t("freeShipping")
                         : formatVnd(shippingFee)}
                     </span>
                   </div>
                   <div className="flex justify-between text-base font-extrabold text-neutral-950 pt-2 border-t border-neutral-200">
-                    <span>Tổng thanh toán</span>
+                    <span>{t("total")}</span>
                     <span className="text-rose-600">{formatVnd(cartTotal)}</span>
                   </div>
                 </div>
@@ -1230,8 +1236,8 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                   }`}
                 >
                   {selectedCount > 0
-                    ? `Tiến hành đặt hàng (${selectedCount})`
-                    : "Vui lòng chọn sản phẩm"}
+                    ? `${t("proceedCheckout")} (${selectedCount})`
+                    : t("selectItemsToBuy")}
                 </button>
 
                 {selectedCount === 0 && (
