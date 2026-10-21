@@ -1,0 +1,3 @@
+﻿sku,name,description,category,gender,price,costPrice,stockQuantity,size,color,imageUrl,status
+TS-DEMO-01,Áo Thun Cotton Trơn Trắng,Chất liệu cotton mềm mịn thấm hút mồ hôi,Áo thun,Unisex,199000,90000,50,M,Trắng,https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500,ACTIVE
+SH-DEMO-02,Áo Sơ Mi Tay Dài Kẻ Sọc,Thiết kế trẻ trung thanh lịch,Áo sơ mi,Men,350000,180000,25,L,Xanh dương,https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500,ACTIVE
