@@ -776,6 +776,10 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
                       <img
                         src={relImages[0] || rel.imageUrl || "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500"}
                         alt={rel.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500";
+                        }}
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                       />
                       {relImages.length > 1 && (
@@ -958,8 +962,12 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
                     <div className="w-16 h-20 rounded-lg overflow-hidden bg-neutral-100 shrink-0 border border-neutral-200">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={getProductImages(item.product)[0] || item.product.imageUrl || ""}
+                        src={getProductImages(item.product)[0] || item.product.imageUrl || "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500"}
                         alt={item.product.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500";
+                        }}
                         className="w-full h-full object-cover"
                       />
                     </div>

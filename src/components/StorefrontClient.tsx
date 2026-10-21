@@ -693,6 +693,10 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                         "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500"
                       }
                       alt={product.name}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500";
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     />
 
@@ -1134,6 +1138,10 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                           "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500"
                         }
                         alt={item.product.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500";
+                        }}
                         className="w-full h-full object-cover"
                       />
                     </div>
