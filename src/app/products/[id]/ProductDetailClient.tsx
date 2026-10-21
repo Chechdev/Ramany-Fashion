@@ -302,14 +302,9 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
             </span>
           </div>
           <div className="flex items-center gap-4 text-neutral-300">
-            <span className="hidden md:inline">Hotline CSKH: 1900 6868</span>
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1 hover:text-white transition font-medium"
-            >
-              <Settings className="w-3 h-3" />
-              <span>Quản trị kho</span>
-            </Link>
+            <span>Hotline CSKH: 1900 6868</span>
+            <span>•</span>
+            <span className="hidden sm:inline">Hỗ trợ 24/7</span>
           </div>
         </div>
       </div>

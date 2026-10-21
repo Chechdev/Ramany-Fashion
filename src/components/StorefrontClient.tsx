@@ -328,14 +328,10 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
             Ưu đãi tháng này: <strong>MIỄN PHÍ VẬN CHUYỂN</strong> cho đơn từ 500.000₫
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/admin"
-            className="inline-flex items-center gap-1.5 text-neutral-300 hover:text-white bg-neutral-800 hover:bg-neutral-700 px-2.5 py-1 rounded-md transition text-xs font-semibold cursor-pointer border border-neutral-700"
-          >
-            <Settings className="w-3 h-3 text-amber-400" />
-            <span>Kênh Quản Trị</span>
-          </Link>
+        <div className="hidden sm:flex items-center gap-4 text-neutral-400">
+          <span>Đổi trả 30 ngày miễn phí</span>
+          <span>•</span>
+          <span>Chất lượng cam kết</span>
         </div>
       </div>
 
@@ -380,14 +376,6 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
 
             {/* Menu & Giỏ hàng */}
             <div className="flex items-center gap-3">
-              {/* Nút Xem Quản Trị Kho */}
-              <Link
-                href="/admin"
-                className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-neutral-700 hover:text-neutral-950 bg-neutral-100 hover:bg-neutral-200 rounded-lg transition"
-              >
-                <Settings className="w-3.5 h-3.5" />
-                <span>Quản lý sản phẩm</span>
-              </Link>
 
               {/* Nút Giỏ Hàng */}
               <button
@@ -547,13 +535,6 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
                 <span>Khám phá ngay</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-neutral-800/80 hover:bg-neutral-800 text-white font-medium text-sm backdrop-blur-md border border-neutral-700 transition cursor-pointer"
-              >
-                <Settings className="w-4 h-4 text-amber-400" />
-                <span>Xem kho Supabase</span>
-              </Link>
             </div>
           </div>
         </div>
@@ -864,18 +845,15 @@ export function StorefrontClient({ initialProducts = [] }: { initialProducts?: P
 
             <div>
               <h4 className="font-bold text-neutral-900 uppercase tracking-wider mb-3">
-                Hệ thống & Cơ sở dữ liệu
+                Chính sách & Hỗ trợ
               </h4>
               <p className="text-neutral-500 mb-2">
-                Dữ liệu đồng bộ trực tiếp từ <strong>Supabase PostgreSQL</strong> qua <strong>Prisma ORM</strong>.
+                Miễn phí đổi trả trong 30 ngày đối với sản phẩm còn nguyên tem mác. Tư vấn form dáng chuẩn xác 24/7.
               </p>
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 text-white font-medium hover:bg-neutral-800 transition"
-              >
-                <Settings className="w-3.5 h-3.5 text-amber-400" />
-                <span>Truy cập trang Quản Trị</span>
-              </Link>
+              <div className="text-xs text-neutral-500 space-y-1">
+                <p>• Hotline CSKH: 1800 6868 (Miễn phí)</p>
+                <p>• Email: support@ramany.com</p>
+              </div>
             </div>
           </div>
 

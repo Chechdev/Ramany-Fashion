@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Upload, Download, CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
+import { Plus, Upload, Download, CheckCircle2, AlertCircle, RefreshCw, LogOut, Store } from "lucide-react";
+import Link from "next/link";
 import { RamanyFullBadge } from "@/components/RamanyLogo";
 
 interface HeaderProps {
@@ -12,6 +13,7 @@ interface HeaderProps {
   dbStatus: "checking" | "connected" | "disconnected";
   onCheckDb: () => void;
   totalFiltered: number;
+  onLogout?: () => void;
 }
 
 export function Header({
@@ -22,6 +24,7 @@ export function Header({
   dbStatus,
   onCheckDb,
   totalFiltered,
+  onLogout,
 }: HeaderProps) {
   const [showExportMenu, setShowExportMenu] = useState(false);
 
@@ -131,6 +134,32 @@ export function Header({
               <Plus className="w-4 h-4" />
               <span>Thêm sản phẩm</span>
             </button>
+
+            {/* Phân cách */}
+            <div className="h-6 w-px bg-neutral-200 hidden sm:block mx-1" />
+
+            {/* Về cửa hàng */}
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100 rounded-lg transition"
+              title="Xem giao diện bán hàng"
+            >
+              <Store className="w-4 h-4" />
+              <span className="hidden sm:inline">Cửa hàng</span>
+            </Link>
+
+            {/* Đăng xuất */}
+            {onLogout && (
+              <button
+                type="button"
+                onClick={onLogout}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition cursor-pointer"
+                title="Đăng xuất khỏi trang quản trị"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">Đăng xuất</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

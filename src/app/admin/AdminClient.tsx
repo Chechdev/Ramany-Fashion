@@ -11,6 +11,7 @@ import { ProductFormModal } from "@/components/ProductFormModal";
 import { ProductDetailModal } from "@/components/ProductDetailModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ImportDialog } from "@/components/ImportDialog";
+import { AdminLogin } from "@/components/AdminLogin";
 import { AlertCircle, CheckCircle2, X, Store, ArrowLeft } from "lucide-react";
 
 interface AdminClientProps {
@@ -38,6 +39,25 @@ export function AdminClient({
   initialPagination = { page: 1, pageSize: 10, totalItems: 0, totalPages: 1 },
   initialDbStatus = "connected",
 }: AdminClientProps) {
+  // Xác thực đăng nhập Admin
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const isLoggedLocal = typeof window !== "undefined" && localStorage.getItem("ramany_admin_logged") === "true";
+    const isLoggedSession = typeof window !== "undefined" && sessionStorage.getItem("ramany_admin_logged") === "true";
+    setIsAuthenticated(isLoggedLocal || isLoggedSession);
+  }, []);
+
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("ramany_admin_logged");
+      localStorage.removeItem("ramany_admin_user");
+      sessionStorage.removeItem("ramany_admin_logged");
+      sessionStorage.removeItem("ramany_admin_user");
+    }
+    setIsAuthenticated(false);
+  };
+
   // Trạng thái kết nối Database
   const [dbStatus, setDbStatus] = useState<"checking" | "connected" | "disconnected">(initialDbStatus);
 
@@ -314,6 +334,21 @@ export function AdminClient({
 
   const hasActiveFilters = Boolean(search || category !== "ALL" || status !== "ALL");
 
+  // Đang kiểm tra phiên đăng nhập (tránh nhấp nháy giao diện)
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center text-white">
+        <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin mb-3" />
+        <p className="text-xs text-neutral-400 tracking-wider uppercase font-semibold">Đang xác thực quản trị...</p>
+      </div>
+    );
+  }
+
+  // Chưa đăng nhập -> Hiển thị màn hình Đăng Nhập Admin
+  if (!isAuthenticated) {
+    return <AdminLogin onSuccess={() => setIsAuthenticated(true)} />;
+  }
+
   return (
     <div suppressHydrationWarning className="min-h-screen flex flex-col bg-neutral-50">
       {/* Top Bar chuyển đổi giữa Web Bán Hàng & Admin */}
@@ -347,6 +382,7 @@ export function AdminClient({
         dbStatus={dbStatus}
         onCheckDb={checkDb}
         totalFiltered={pagination.totalItems}
+        onLogout={handleLogout}
       />
 
       {/* Main Content */}
