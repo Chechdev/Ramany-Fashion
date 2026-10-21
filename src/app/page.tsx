@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { getProductImages, ProductItem } from "@/types/product";
 import { StorefrontClient } from "@/components/StorefrontClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function StorefrontPage() {
   let initialProducts: ProductItem[] = [];
 

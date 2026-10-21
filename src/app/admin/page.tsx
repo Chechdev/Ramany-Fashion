@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { getProductImages, ProductItem } from "@/types/product";
 import { AdminClient } from "./AdminClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   let initialProducts: ProductItem[] = [];
   let initialStats = {
