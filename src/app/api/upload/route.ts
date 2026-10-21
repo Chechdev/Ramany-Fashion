@@ -3,20 +3,31 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 
-// Cấu hình Cloudinary nếu đã có các biến môi trường
-const isCloudinaryConfigured = Boolean(
-  process.env.CLOUDINARY_CLOUD_NAME &&
-  process.env.CLOUDINARY_API_KEY &&
-  process.env.CLOUDINARY_API_SECRET
-);
+function getCloudinaryConfig() {
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+  const cloudinaryUrl = process.env.CLOUDINARY_URL;
 
-if (isCloudinaryConfigured) {
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-    secure: true,
-  });
+  if (cloudinaryUrl) {
+    cloudinary.config({
+      cloudinary_url: cloudinaryUrl,
+      secure: true,
+    });
+    return true;
+  }
+
+  if (cloudName && apiKey && apiSecret) {
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret,
+      secure: true,
+    });
+    return true;
+  }
+
+  return false;
 }
 
 // Hàm upload buffer lên Cloudinary
@@ -55,6 +66,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const isCloudinaryActive = getCloudinaryConfig();
     const savedUrls: string[] = [];
 
     for (const file of files) {
@@ -63,8 +75,8 @@ export async function POST(request: NextRequest) {
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-      // Nếu đã cấu hình Cloudinary: Tải trực tiếp lên Cloudinary (ưu tiên hàng đầu)
-      if (isCloudinaryConfigured) {
+      // Nếu có Cloudinary: Tải trực tiếp lên Cloudinary (Ưu tiên hàng đầu)
+      if (isCloudinaryActive) {
         try {
           const cloudUrl = await uploadToCloudinary(buffer);
           savedUrls.push(cloudUrl);
@@ -74,7 +86,7 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      // Fallback: Lưu vào thư mục public/uploads
+      // Dự phòng: Lưu vào thư mục public/uploads
       const ext = path.extname(file.name).toLowerCase() || ".jpg";
       const allowedExts = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".avif"];
       const safeExt = allowedExts.includes(ext) ? ext : ".jpg";
@@ -98,7 +110,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: `Đã tải lên thành công ${savedUrls.length} ảnh ${isCloudinaryConfigured ? "(Cloudinary)" : "(Local)"}`,
+      message: `Đã tải lên thành công ${savedUrls.length} ảnh ${isCloudinaryActive ? "(Cloudinary)" : "(Local)"}`,
       urls: savedUrls,
     });
   } catch (error) {
