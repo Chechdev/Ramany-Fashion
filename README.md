@@ -119,7 +119,7 @@ Chạy máy chủ phát triển Next.js:
 npm run dev
 ```
 Mở trình duyệt web và truy cập:
-👉 **[http://localhost:3000](http://localhost:3000)**
+👉 **[http://localhost:1809](http://localhost:1809)**
 
 ---
 
